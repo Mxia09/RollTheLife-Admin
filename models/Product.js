@@ -6,6 +6,7 @@ const ProductSchema = new Schema({
     price: {type: Number, req: true},
     images: [{type: String}],
     category: { type:mongoose.Schema.Types.ObjectId, ref:'Category'},
+    properties: {type:Object}
     
 });
 

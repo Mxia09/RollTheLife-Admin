@@ -2,7 +2,6 @@ import Layout from "@/components/Layout";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { withSwal } from 'react-sweetalert2';
-import { Category } from "@/models/Category";
 
 function Categories({swal}) {
         const [editedCategory,setEditedCategory] = useState(null);
@@ -43,9 +42,15 @@ function Categories({swal}) {
         }
     
         function editCategory(category){
-            setEditedCategory(category)
-            setName(category.name)
-            setParentCategory(category.parent?._id)
+            setEditedCategory(category);
+            setName(category.name);
+            setParentCategory(category.parent?._id);
+            setProperties(
+                category.properties.map(({name,values}) => ({
+                    name, 
+                    values:values.join(',')
+                }))
+                );
         }
 
         function deleteCategory(category){
@@ -156,9 +161,11 @@ function Categories({swal}) {
                     {editedCategory && (
                         <button
                             type="button"
-                            onClick={() => {setEditedCategory(null);
+                            onClick={() => {
+                                setEditedCategory(null);
                                 setName('');
                                 setParentCategory('');
+                                setProperties([]);
                             }}
                             className="btn-default">
                             Cancel
