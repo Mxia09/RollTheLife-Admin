@@ -4,6 +4,9 @@ import clientPromise from '@/lib/mongodb'
 import { MongoDBAdapter } from '@auth/mongodb-adapter'
 // import EmailProvider from 'next-auth/providers/email'
 
+const adminEmails = process.env.NEXT_PUBLIC_ADMIN_EMAILS.split(',');
+
+
 export default NextAuth({
   providers: [
     GoogleProvider({
@@ -17,4 +20,13 @@ export default NextAuth({
     // }),
   ],
 adapter:MongoDBAdapter(clientPromise),
+callbacks: {
+  session: ({session,token,user}) => {
+    if (adminEmails.includes( session?.user?.email)) {
+      return session;
+    } else {
+      return false;
+    }
+  },
+},
 })
