@@ -11,20 +11,24 @@ if (method === 'GET') {
 
 
     if (method === 'POST') {
-        const {name, parentCategory} = req.body; 
+        const {name, parentCategory, properties} = req.body; 
         const parent = parentCategory === '' ? null : parentCategory;
         const categoryDoc = await Category.create({
             name, 
-            parent: parent});
+            parent: parent || undefined,
+            properties,
+        });
         res.json(categoryDoc)
     }
 
     if (method === 'PUT') {
-        const {name, parentCategory,_id} = req.body; 
+        const {name, parentCategory,properties,_id, } = req.body; 
         const parent = parentCategory === '' ? null : parentCategory;
         const categoryDoc = await Category.updateOne({_id},{
             name, 
-            parent: parent});
+            parent: parent || undefined,
+            properties,
+        });
         res.json(categoryDoc)
     }
 
