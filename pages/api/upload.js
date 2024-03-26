@@ -6,6 +6,15 @@ import mime from 'mime-types'
 import { mongooseConnect } from '@/lib/mongoose';
 import { isAdminRequest } from './auth/[...nextauth]';
 
+// Define the getHeader method
+function getHeader(req, headerName) {
+  // Retrieve the value of the specified header from the request object
+  const headerValue = req.headers.get(headerName);
+
+  // Return the retrieved header value
+  return headerValue;
+}
+
 export default async function handle(req, res){
     await mongooseConnect();
     await isAdminRequest(res,req);
